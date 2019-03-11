@@ -3,6 +3,7 @@
 
 import cv2
 import pandas as pd
+import numpy as np
 from os import listdir, getcwd
 from skimage.io import imread
 import matplotlib.pyplot as plt
@@ -37,13 +38,15 @@ for clas in classes:
         animal_resize = cv2.resize(animal_rgb, (32, 32),interpolation=cv2.INTER_CUBIC)
         
         try:
-            animal_vect = animal_resize.reshape(1,3072)
+            animal_vect = animal_resize.reshape(3072)
         except ValueError:
             color_img = cv2.cvtColor(animal_resize, cv2.COLOR_GRAY2RGB)
             plot_image(color_img,animal_filename + 'resize_and_convert')
-            animal_vect = color_img.reshape(1,3072)
+            animal_vect = color_img.reshape(3072)
             
         lst.append([animal_filename, clas[:-1], animal_vect])
+        
+array = np.array(lst)
 
-data = pd.DataFrame(lst, columns=cols)       
+data = pd.DataFrame(array, columns=cols)       
 data.to_pickle('data.pk')
