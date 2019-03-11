@@ -7,7 +7,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.neighbors import KNeighborsClassifier
 
-neighbors = list(range(1,31))
+neighbors = list(range(30,51))
 cv_train_scores = []
 cv_valid_scores = []
 cv_train_confusion_matrices = []
