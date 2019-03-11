@@ -7,7 +7,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.neighbors import KNeighborsClassifier
 
-neighbors = list(range(1,2))
+neighbors = list(range(1,31))
 cv_train_scores = []
 cv_valid_scores = []
 cv_train_confusion_matrices = []
@@ -28,11 +28,15 @@ K = []
 for p in [1,2]:
     for k in neighbors:
         
+        print('Training k=' + str(k) + ', p=' + str(p) + '...\n')
+        
         P.append(p)
         K.append(k)
     
         knn = KNeighborsClassifier(n_neighbors=k, p=p)
         knn.fit(X_train, y_train)
+
+        print('Validating k=' + str(k) + ', p=' + str(p) + '...\n')
 
         y_train_pred = knn.predict(X_train)
         cv_train_scores.append(accuracy_score(y_train,
@@ -58,3 +62,6 @@ print(results)
 
 json.dump(X_test.tolist(), codecs.open('X_test.json', 'w', encoding='utf-8'), separators=(',', ':'), sort_keys=False, indent=2)
 json.dump(y_test.tolist(), codecs.open('y_test.json', 'w', encoding='utf-8'), separators=(',', ':'), sort_keys=False, indent=2)
+
+json.dump(X_train.tolist(), codecs.open('X_train.json', 'w', encoding='utf-8'), separators=(',', ':'), sort_keys=False, indent=2)
+json.dump(y_train.tolist(), codecs.open('y_train.json', 'w', encoding='utf-8'), separators=(',', ':'), sort_keys=False, indent=2)
